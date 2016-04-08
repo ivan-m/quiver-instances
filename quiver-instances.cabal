@@ -1,7 +1,12 @@
 name:                quiver-instances
 version:             0.1.0.0
 synopsis:            Extra instances for Quiver
-description:         Various extra instances for Quiver that aren't yet in the main library
+description:
+  Various extra instances for Quiver that aren't yet in the main library.
+  .
+  Currently this provides instances for the 'MonadThrow', 'MonadCatch'
+  and 'MonadMask' classes from the
+  <http://hackage.haskell.org/package/exceptions exceptions> library.
 license:             MIT
 license-file:        LICENSE
 author:              Ivan Lazar Miljenovic

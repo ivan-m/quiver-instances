@@ -9,7 +9,9 @@
    License     : MIT
    Maintainer  : Ivan.Miljenovic@gmail.com
 
-
+Currently this provides instances for the 'MonadThrow', 'MonadCatch'
+and 'MonadMask' classes from the
+<http://hackage.haskell.org/package/exceptions exceptions> library.
 
  -}
 module Control.Quiver.Instances () where
