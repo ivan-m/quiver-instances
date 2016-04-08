@@ -15,6 +15,7 @@ maintainer:          Ivan.Miljenovic@gmail.com
 category:            Control
 build-type:          Simple
 extra-source-files:  README.md
+                   , stack.yaml
 cabal-version:       >=1.10
 
 tested-with:   GHC == 7.10.2, GHC == 7.11.*
@@ -27,7 +28,7 @@ library
   exposed-modules:     Control.Quiver.Instances
   -- other-modules:
   build-depends:       base >=4.8 && <4.9
-                     , exceptions
+                     , exceptions == 0.8.*
                      , quiver >= 1.1.3 && < 1.2
                      , transformers
   hs-source-dirs:      src
