@@ -1,4 +1,4 @@
-{-# LANGUAGE RankNTypes #-}
+{-# LANGUAGE RankNTypes, ScopedTypeVariables, TypeFamilies #-}
 
 {-# OPTIONS_GHC -fno-warn-orphans #-}
 
@@ -18,6 +18,7 @@ import Control.Quiver.Internal
 
 import Control.Monad.Catch
 import Control.Monad.IO.Class (MonadIO (..))
+import Control.Monad.Safe     (MonadSafe (..))
 import Data.IORef             (newIORef, readIORef, writeIORef)
 
 --------------------------------------------------------------------------------
@@ -44,7 +45,7 @@ instance (MonadIO f, MonadMask f) => MonadMask (P a a' b b' f) where
 
 data Restore m = Unmasked | Masked (forall x . m x -> m x)
 
-liftMask :: (MonadIO f, MonadMask f)
+liftMask :: forall a a' b b' f r. (MonadIO f, MonadMask f)
             => (forall s. ((forall x. f x -> f x) -> f s) -> f s)
             -> ((forall x. P a a' b b' f x -> P a a' b b' f x)
                 -> P a a' b b' f r)
@@ -63,6 +64,7 @@ liftMask maskVariant pk = do
                     maskM <$> (m >>= mergeAdjacent)
                   Deliver r     -> deliver r
 
+    unmask :: forall q. P a a' b b' f q -> P a a' b b' f q
     unmask p = case p of
                  Consume x k q -> consume x (unmask . k) (decouple (unmask q))
                  Produce y k q -> produce y (unmask . k) (deplete  (unmask q))
@@ -76,3 +78,12 @@ liftMask maskVariant pk = do
                         Enclose m -> m >>= mergeAdjacent
                         _         -> return p
   maskM (pk unmask)
+
+--------------------------------------------------------------------------------
+
+instance (MonadSafe f) => MonadSafe (P a a' b b' f) where
+  type Base (P a a' b b' f) = Base f
+
+  liftBase = qlift . liftBase
+  register = qlift . register
+  release  = qlift . release
