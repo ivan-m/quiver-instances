@@ -31,6 +31,7 @@ library
                      , exceptions == 0.8.*
                      , quiver >= 1.1.3 && < 1.2
                      , transformers
+                     , transformers-base
   hs-source-dirs:      src
   default-language:    Haskell2010
 
