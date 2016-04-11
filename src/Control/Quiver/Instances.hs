@@ -19,10 +19,11 @@ module Control.Quiver.Instances () where
 
 import Control.Quiver.Internal
 
-import Control.Monad.Base     (MonadBase (..), liftBaseDefault)
+import Control.Monad.Base           (MonadBase (..), liftBaseDefault)
 import Control.Monad.Catch
-import Control.Monad.IO.Class (MonadIO (..))
-import Data.IORef             (newIORef, readIORef, writeIORef)
+import Control.Monad.IO.Class       (MonadIO (..))
+import Control.Monad.Trans.Resource (MonadResource (..))
+import Data.IORef                   (newIORef, readIORef, writeIORef)
 
 --------------------------------------------------------------------------------
 -- Instances for classes from the exceptions library.
@@ -88,3 +89,9 @@ liftMask maskVariant pk = do
 -- This requires UndecidableInstances
 instance (MonadBase bm f) => MonadBase bm (P a a' b b' f) where
   liftBase = liftBaseDefault
+
+--------------------------------------------------------------------------------
+-- Instances for classes from the resourcet library.
+
+instance (MonadResource f) => MonadResource (P a a' b b' f) where
+  liftResourceT = qlift . liftResourceT
