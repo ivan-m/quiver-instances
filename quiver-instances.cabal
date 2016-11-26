@@ -18,7 +18,7 @@ extra-source-files:  README.md
                    , stack.yaml
 cabal-version:       >=1.10
 
-tested-with:   GHC == 7.10.2, GHC == 7.11.*
+tested-with:   GHC == 7.10.2, GHC == 8.0.1, GHC == 8.1.*
 
 source-repository head
     type:         git
@@ -27,7 +27,7 @@ source-repository head
 library
   exposed-modules:     Control.Quiver.Instances
   -- other-modules:
-  build-depends:       base >=4.8 && <4.9
+  build-depends:       base >=4.8 && <4.10
                      , exceptions == 0.8.*
                      , quiver >= 1.1.3 && < 1.2
                      , resourcet == 1.1.*
